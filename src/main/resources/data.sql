@@ -1,0 +1,1 @@
+INSERT INTO DUMMY VALUES (1, 'asd', '2021-01-01');
