@@ -24,7 +24,7 @@ public class MyUserServiceImpl implements MyUserService {
     MyLoginAttemptRepository myLoginAttemptRepository;
 
     @Override
-    public String register(String username, CharSequence password) throws UserAlreadyExistException {
+    public MyUser register(String username, CharSequence password) throws UserAlreadyExistException {
         if(myUserRepository.findByUsername(username).isPresent()){
             throw new UserAlreadyExistException("User already exists");
         }
@@ -36,15 +36,46 @@ public class MyUserServiceImpl implements MyUserService {
         myUser.setIsLocked(0);
         myUser.setLastPasswordDate(new Date());
         myUserRepository.save(myUser);
-        return myUser.getUsername();
+        return myUser;
     }
 
     @Override
-    public Boolean unlock(Long id) {
+    public MyUser unlock(Long id) {
         MyUser byId = myUserRepository.getById(id);
         byId.setIsLocked(0);
-        return myUserRepository.save(byId).getIsLocked() == 0;
+        byId.setFailedAttempts(0);
+        return myUserRepository.save(byId);
     }
+
+    @Override
+    public MyUser enable(Long id) {
+        MyUser byId = myUserRepository.getById(id);
+        byId.setIsDisabled(0);
+        return myUserRepository.save(byId);
+    }
+
+    @Override
+    public MyUser disable(Long id) {
+        MyUser byId = myUserRepository.getById(id);
+        byId.setIsDisabled(1);
+        return myUserRepository.save(byId);
+    }
+
+    @Override
+    public MyUser passwordExpired(Long id) {
+        MyUser byId = myUserRepository.getById(id);
+        byId.setIsPwExpired(1);
+        return myUserRepository.save(byId);
+    }
+
+    @Override
+    public MyUser passwordNotExpired(Long id) {
+        MyUser byId = myUserRepository.getById(id);
+        byId.setIsPwExpired(0);
+        return myUserRepository.save(byId);
+    }
+
+
 
     @Override
     public MyUser getById(Long id) {

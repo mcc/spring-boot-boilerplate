@@ -1,5 +1,8 @@
 package mcc.springbootboilerplate.entity;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -11,10 +14,14 @@ public class MyUser implements Serializable {
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "MY_USER_SEQ")
     private Long myUserId;
     private String username;
+    @JsonIgnore
     private String encPassword;
     private int failedAttempts;
     private int isLocked;
     private int isDisabled;
+
+
+    private int isPwExpired;
     private Date lastPasswordDate;
 
     public Long getMyUserId() {
@@ -33,6 +40,7 @@ public class MyUser implements Serializable {
         this.username = username;
     }
 
+    @JsonIgnore
     public String getEncPassword() {
         return encPassword;
     }
@@ -71,5 +79,13 @@ public class MyUser implements Serializable {
 
     public void setLastPasswordDate(Date lastPasswordDate) {
         this.lastPasswordDate = lastPasswordDate;
+    }
+
+    public int getIsPwExpired() {
+        return isPwExpired;
+    }
+
+    public void setIsPwExpired(int isPwExpired) {
+        this.isPwExpired = isPwExpired;
     }
 }

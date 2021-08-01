@@ -24,15 +24,14 @@ public class UserController {
 
     @GetMapping("/register")
     @ResponseBody
-    public String register(@RequestParam("username") String username) throws UserAlreadyExistException {
-        return myUserService.register(username, "asd");
+    public ResponseEntity register(@RequestParam("username") String username) throws UserAlreadyExistException {
+        return ResponseEntity.status(HttpStatus.OK).body(myUserService.register(username, "asd"));
     }
 
 
     @GetMapping("/{id}/unlock")
     public ResponseEntity unlock(@PathVariable Long id) {
-        return myUserService.unlock(id) ? ResponseEntity.status(HttpStatus.OK).build():
-                ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).build();
+        return ResponseEntity.status(HttpStatus.OK).body(myUserService.unlock(id));
 
     }
     @GetMapping("/{id}")
