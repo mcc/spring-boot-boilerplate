@@ -40,6 +40,18 @@ public class MyUserServiceImpl implements MyUserService {
     }
 
     @Override
+    public Boolean unlock(Long id) {
+        MyUser byId = myUserRepository.getById(id);
+        byId.setIsLocked(0);
+        return myUserRepository.save(byId).getIsLocked() == 0;
+    }
+
+    @Override
+    public MyUser getById(Long id) {
+        return myUserRepository.findById(id).get();
+    }
+
+    @Override
     public void increaseFailLoginAttempt(String username) {
         Optional<MyUser> byUsername = myUserRepository.findByUsername(username);
 

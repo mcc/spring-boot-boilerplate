@@ -1,10 +1,11 @@
 package mcc.springbootboilerplate.entity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
-public class MyUser {
+public class MyUser implements Serializable {
     @Id
     @SequenceGenerator(name="MY_USER_SEQ", allocationSize = 1)
     @GeneratedValue(strategy= GenerationType.SEQUENCE, generator = "MY_USER_SEQ")
