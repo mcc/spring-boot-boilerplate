@@ -8,6 +8,7 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -30,10 +31,12 @@ public class UserController {
 
 
     @GetMapping("/{id}/unlock")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public ResponseEntity unlock(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(myUserService.unlock(id));
 
     }
+
     @GetMapping("/{id}")
     public EntityModel<MyUser> findOne(@PathVariable Long id) {
         Class<UserController> controllerClass = UserController.class;
